@@ -443,17 +443,7 @@
     color:var(--muted-dim);
   }
 
-  .reveal{
-    opacity:0;
-    transform:translateY(18px);
-    transition:opacity .6s ease, transform .6s ease;
-  }
-  .reveal.in{opacity:1;transform:translateY(0);}
-
-  @media (prefers-reduced-motion: reduce){
-    *{animation:none !important; transition:none !important;}
-    .reveal{opacity:1;transform:none;}
-  }
+  /* Sections are always visible — no JS required to see any content. */
 </style>
 </head>
 <body>
@@ -693,7 +683,7 @@
         <a href="mailto:bhurtelkrish123@gmail.com" class="btn btn-primary">bhurtelkrish123@gmail.com</a>
         <a href="https://www.linkedin.com/in/krish-bhurtel-894946233/" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn →</a>
         <a href="https://github.com/iamkrish001" target="_blank" rel="noopener" class="btn btn-ghost">GitHub →</a>
-        <a href="Krish_Bhurtel_CV(2).pdf" target="_blank" rel="noopener" class="btn btn-ghost">Download CV →</a>
+        <a href="Krish_Bhurtel_CV.pdf" target="_blank" rel="noopener" class="btn btn-ghost">Download CV →</a>
       </div>
     </div>
     <div class="wrap">
@@ -707,14 +697,9 @@
 </main>
 
 <script>
-  // Reveal on scroll
-  const items = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-  },{threshold:0.12});
-  items.forEach(i=>io.observe(i));
-
-  // Signal waveform canvas in hero
+  // Signal waveform canvas in hero (purely decorative — wrapped so a
+  // blocked/unavailable canvas API can never affect the rest of the page)
+  try{
   const canvas = document.getElementById('waveform');
   const ctx = canvas.getContext('2d');
   let w, h, dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -757,6 +742,7 @@
     if(!reduceMotion) requestAnimationFrame(draw);
   }
   draw();
+  }catch(err){ /* decorative only — safe to skip if canvas is unavailable */ }
 </script>
 
 </body>
