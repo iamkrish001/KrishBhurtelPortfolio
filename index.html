@@ -1,577 +1,763 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Krish Bhurtel — Information Engineering</title>
+<meta name="description" content="Krish Bhurtel — Information Engineering student at HAW Hamburg. Python, embedded systems, software engineering. Open to student assistant and working-student roles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0c0e;
+    --surface:#15171b;
+    --surface-2:#1b1e23;
+    --line:#272a30;
+    --text:#ece9e2;
+    --muted:#8b8f97;
+    --muted-dim:#5f636b;
+    --accent:#e8a33d;
+    --accent-dim:#8a6a35;
+    --radius:2px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    letter-spacing:-0.02em;
+  }
+  .mono{
+    font-family:'JetBrains Mono',monospace;
+  }
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent);color:#0b0c0e;}
 
-  <head>
-    <title>Krish Bhurtel Portfolio</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
 
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 32px;
+  }
 
-    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="css/animate.css">
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:100;
+    background:rgba(11,12,14,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1080px;
+    margin:0 auto;
+    padding:18px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .nav-brand{
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;
+    color:var(--text);
+  }
+  .nav-brand span{color:var(--accent);}
+  .nav-links{
+    display:flex;
+    gap:28px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .nav-links a{
+    position:relative;
+    transition:color .2s ease;
+  }
+  .nav-links a::before{content:"./";color:var(--muted-dim);}
+  .nav-links a:hover{color:var(--accent);}
+  .nav-toggle{display:none;}
 
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/magnific-popup.css">
+  @media (max-width:640px){
+    .nav-links{display:none;}
+  }
 
-    <link rel="stylesheet" href="css/aos.css">
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding-top:100px;
+    padding-bottom:60px;
+  }
+  #waveform{
+    position:absolute;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    opacity:0.5;
+    pointer-events:none;
+  }
+  .hero-content{position:relative;z-index:2;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--accent);
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:8px;height:8px;
+    background:var(--accent);
+    border-radius:50%;
+    display:inline-block;
+    animation:blink 2s ease-in-out infinite;
+  }
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.25;}}
 
-    <link rel="stylesheet" href="css/ionicons.min.css">
+  .hero h1{
+    font-size:clamp(40px,7vw,84px);
+    line-height:1.02;
+    max-width:900px;
+  }
+  .hero h1 .dim{color:var(--muted);}
+  .hero p.lede{
+    margin-top:26px;
+    max-width:560px;
+    font-size:18px;
+    color:var(--muted);
+  }
+  .hero-cta{
+    margin-top:40px;
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    padding:14px 24px;
+    border-radius:var(--radius);
+    border:1px solid var(--line);
+    transition:all .2s ease;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .btn-primary{
+    background:var(--accent);
+    color:#0b0c0e;
+    border-color:var(--accent);
+    font-weight:500;
+  }
+  .btn-primary:hover{background:#f3b455;border-color:#f3b455;}
+  .btn-ghost{
+    color:var(--text);
+    background:transparent;
+  }
+  .btn-ghost:hover{border-color:var(--muted);}
 
-    <link rel="stylesheet" href="css/flaticon.css">
-    <link rel="stylesheet" href="css/icomoon.css">
-    <link rel="stylesheet" href="css/style.css">
+  .hero-meta{
+    position:absolute;
+    bottom:36px;
+    left:32px;
+    right:32px;
+    display:flex;
+    justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--muted-dim);
+    z-index:2;
+  }
+  @media (max-width:640px){ .hero-meta{display:none;} }
 
-    <style>
-      /*======================================
-//--//-->   ABOUT
-======================================*/
+  /* ---------- SECTION SHELL ---------- */
+  section{
+    padding:110px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:56px;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .section-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--accent);
+  }
+  .section-tag::before{content:"~/";color:var(--muted-dim);}
+  .section-head h2{
+    font-size:clamp(28px,4vw,40px);
+  }
+  .section-count{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--muted-dim);
+  }
 
-      .about-mf .box-shadow-full {
-        padding-top: 4rem;
-        padding-bottom: 4rem;
-      }
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr;
+    gap:60px;
+  }
+  @media (max-width:800px){ .about-grid{grid-template-columns:1fr;} }
+  .about-text p{
+    font-size:17px;
+    color:var(--muted);
+    margin-bottom:18px;
+    max-width:60ch;
+  }
+  .about-text strong{color:var(--text);font-weight:500;}
+  .status-card{
+    border:1px solid var(--line);
+    background:var(--surface);
+    padding:24px;
+    border-radius:var(--radius);
+  }
+  .status-card h3{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--muted-dim);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:16px;
+    font-weight:400;
+  }
+  .status-row{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-top:1px solid var(--line);
+    font-size:14px;
+  }
+  .status-row:first-of-type{border-top:none;}
+  .status-row .k{color:var(--muted);}
+  .status-row .v{color:var(--text);text-align:right;}
+  .status-dot{
+    display:inline-block;
+    width:7px;height:7px;
+    border-radius:50%;
+    background:var(--accent);
+    margin-right:8px;
+  }
 
-      .about-mf .about-img {
-        margin-bottom: 2rem;
-      }
+  /* ---------- SKILLS ---------- */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .skill-block{
+    background:var(--bg);
+    padding:28px;
+  }
+  .skill-block h4{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--muted-dim);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:14px;
+    font-weight:400;
+  }
+  .skill-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .skill-tags span{
+    font-size:14px;
+    color:var(--text);
+    padding:5px 10px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+  }
 
-      .about-mf .about-img img {
-        margin-left: 10px;
-      }
+  /* ---------- PROJECTS ---------- */
+  .project{
+    display:grid;
+    grid-template-columns:80px 1fr auto;
+    gap:24px;
+    align-items:start;
+    padding:32px 0;
+    border-top:1px solid var(--line);
+    transition:background .2s ease;
+  }
+  .project:first-of-type{border-top:none;}
+  .project:hover{background:var(--surface);}
+  .project-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--muted-dim);
+    padding-top:4px;
+  }
+  .project-body h3{
+    font-size:22px;
+    margin-bottom:10px;
+  }
+  .project-body p{
+    color:var(--muted);
+    font-size:15px;
+    max-width:60ch;
+    margin-bottom:14px;
+  }
+  .project-stack{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .project-stack span{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--accent);
+    border:1px solid var(--accent-dim);
+    padding:3px 8px;
+    border-radius:var(--radius);
+  }
+  .project-link{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--text);
+    border:1px solid var(--line);
+    padding:10px 16px;
+    border-radius:var(--radius);
+    white-space:nowrap;
+    height:fit-content;
+    transition:all .2s ease;
+  }
+  .project-link:hover{border-color:var(--accent);color:var(--accent);}
+  @media (max-width:640px){
+    .project{grid-template-columns:1fr;gap:14px;}
+    .project-num{padding-top:0;}
+  }
 
-      .skill-mf .progress {
-        /* background-color: #cde1f8; */
-        margin: 0.5rem 0 1.2rem;
-        border-radius: 0;
-        height: 0.7rem;
-      }
+  /* ---------- EXPERIENCE / EDUCATION ---------- */
+  .timeline-item{
+    display:grid;
+    grid-template-columns:160px 1fr;
+    gap:24px;
+    padding:28px 0;
+    border-top:1px solid var(--line);
+  }
+  .timeline-item:first-of-type{border-top:none;}
+  .timeline-date{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--muted-dim);
+  }
+  .timeline-body h3{font-size:19px;margin-bottom:4px;}
+  .timeline-body .org{color:var(--accent);font-size:14px;margin-bottom:12px;}
+  .timeline-body ul{
+    color:var(--muted);
+    font-size:14.5px;
+    padding-left:18px;
+  }
+  .timeline-body ul li{margin-bottom:6px;}
+  @media (max-width:640px){
+    .timeline-item{grid-template-columns:1fr;gap:8px;}
+  }
 
-      .skill-mf .progress .progress-bar {
-        height: 0.7rem;
-        background-color: #ffbd39;
-      }
+  /* two-column mini section for education + certs */
+  .split-two{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+  }
+  @media (max-width:800px){ .split-two{grid-template-columns:1fr;gap:50px;} }
+  .mini-title{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--muted-dim);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:20px;
+  }
+  .cert-list li{
+    list-style:none;
+    padding:12px 0;
+    border-top:1px solid var(--line);
+    font-size:14.5px;
+    color:var(--muted);
+    display:flex;
+    gap:10px;
+  }
+  .cert-list li:first-child{border-top:none;}
+  .cert-list li::before{content:"—";color:var(--accent);}
 
-      /* Animation styles */
-      #typing-animation {
-        position: relative;
-        font-size: 30px;
-        font-weight: bold;
-        color: rgb(255, 255, 255);
-        overflow: hidden;
-        white-space: nowrap;
-        animation: typing 3s steps(20, end) infinite;
-      }
+  /* ---------- CONTACT / FOOTER ---------- */
+  #contact{border-bottom:none;}
+  .contact-inner{
+    text-align:left;
+  }
+  .contact-inner h2{
+    font-size:clamp(32px,6vw,64px);
+    max-width:760px;
+    margin-bottom:24px;
+  }
+  .contact-inner p{
+    color:var(--muted);
+    font-size:17px;
+    max-width:520px;
+    margin-bottom:40px;
+  }
+  .contact-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+    margin-bottom:70px;
+  }
+  footer{
+    padding:28px 0 50px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--muted-dim);
+  }
 
-      #typing-animation:before {
-        content: "";
-        /* position: absolute; */
-        top: 0;
-        left: 0;
-        width: 0;
-        height: 100%;
-        background-color: #ccc;
-        animation: typing-cursor 0.5s ease-in-out infinite;
-      }
+  .reveal{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .reveal.in{opacity:1;transform:translateY(0);}
 
-      @keyframes typing {
-        from {
-          width: 0;
-        }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+    .reveal{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
 
-        to {
-          width: 100%;
-        }
-      }
+<header>
+  <div class="nav-inner">
+    <div class="nav-brand">krish<span>@</span>haw<span>:</span>~$</div>
+    <nav class="nav-links">
+      <a href="#about">about</a>
+      <a href="#projects">projects</a>
+      <a href="#experience">experience</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </div>
+</header>
 
-      @keyframes typing-cursor {
-        from {
-          width: 5px;
-        }
+<main>
 
-        to {
-          width: 0;
-        }
-      }
+  <!-- HERO -->
+  <section class="hero" style="border-bottom:none;padding-bottom:0;">
+    <canvas id="waveform"></canvas>
+    <div class="wrap hero-content">
+      <div class="eyebrow mono">OPEN TO STUDENT ASSISTANT &amp; WORKING-STUDENT ROLES</div>
+      <h1>Krish Bhurtel<br><span class="dim">builds systems that hold up</span><br>under real signal.</h1>
+      <p class="lede">Information Engineering student at HAW Hamburg. I write Python that automates real workflows, and I'm learning the hardware side — digital circuits, signals, embedded C — well enough to know where software meets silicon.</p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">View projects →</a>
+        <a href="Krish_Bhurtel_CV.pdf" class="btn btn-ghost" target="_blank" rel="noopener">Download CV</a>
+        <a href="mailto:bhurtelkrish123@gmail.com" class="btn btn-ghost">Say hello</a>
+      </div>
+    </div>
+    <div class="hero-meta mono">
+      <span>Hamburg, DE</span>
+      <span>B.Sc. Information Engineering — HAW Hamburg</span>
+    </div>
+  </section>
 
-      /* project image zoom effect */
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="section-tag mono">about</div>
+          <h2>What I'm doing today</h2>
+        </div>
+      </div>
+      <div class="about-grid reveal">
+        <div class="about-text">
+          <p>I'm currently in my second year of a <strong>B.Sc. in Information Engineering at HAW Hamburg</strong>, splitting my coursework between software construction in C and Java, digital circuits, data structures &amp; algorithms, and signals &amp; systems.</p>
+          <p>Before this, I worked as a <strong>Software Support Intern at Heartsun Technology</strong>, where I supported a Python-based healthcare ERP system, wrote automation scripts for repetitive business processes, and documented defects alongside the dev team — my first real exposure to production code and how software actually gets shipped and maintained.</p>
+          <p>Outside coursework, I build small tools to practice what I'm learning: OCR pipelines, encrypted messaging, automation scripts. I'm now looking for a <strong>student assistant or working-student position</strong> where I can apply programming and engineering fundamentals to real experimentation, documentation, or research work.</p>
+        </div>
+        <div class="status-card">
+          <h3>Status</h3>
+          <div class="status-row"><span class="k"><span class="status-dot"></span>Availability</span><span class="v">Open to work</span></div>
+          <div class="status-row"><span class="k">Looking for</span><span class="v">Student assistant / working student</span></div>
+          <div class="status-row"><span class="k">Based in</span><span class="v">Hamburg, Germany</span></div>
+          <div class="status-row"><span class="k">Languages</span><span class="v">EN, DE (B1), NP</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      .zoom-effect {
-        overflow: hidden;
-        transition: transform 0.3s ease-out;
-      }
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="section-tag mono">stack</div>
+          <h2>Tools &amp; technical skills</h2>
+        </div>
+      </div>
+      <div class="skills-grid reveal">
+        <div class="skill-block">
+          <h4>Programming</h4>
+          <div class="skill-tags">
+            <span>Python</span><span>Java</span><span>C</span><span>C++</span><span>JavaScript</span><span>HTML/CSS</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <h4>Engineering</h4>
+          <div class="skill-tags">
+            <span>VHDL</span><span>Embedded C</span><span>Digital Electronics</span><span>Signals &amp; Systems</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <h4>Tools &amp; platforms</h4>
+          <div class="skill-tags">
+            <span>Git / GitHub</span><span>VS Code</span><span>Linux</span><span>Windows</span><span>REST APIs</span><span>JSON</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <h4>Working style</h4>
+          <div class="skill-tags">
+            <span>Technical documentation</span><span>Problem solving</span><span>Analytical thinking</span><span>Teamwork</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      .zoom-effect:hover {
-        transform: scale(1.1);
-      }
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="section-tag mono">projects</div>
+          <h2>Selected work</h2>
+        </div>
+        <div class="section-count mono">4 shown</div>
+      </div>
 
-      @media screen and (orientation: portrait) {
-        body {
-          margin-left: 5%;
-          margin-right: 5%;
-        }
+      <div class="reveal">
+        <div class="project">
+          <div class="project-num mono">01</div>
+          <div class="project-body">
+            <h3>OCR Document Processing System</h3>
+            <p>An OCR pipeline built with Python, Tesseract OCR, and pdf2image that automatically converts scanned PDFs into searchable digital documents — cutting manual document handling down to a single automated pass.</p>
+            <div class="project-stack">
+              <span>Python</span><span>Tesseract OCR</span><span>pdf2image</span><span>Automation</span>
+            </div>
+          </div>
+          <a href="https://github.com/iamkrish001" target="_blank" rel="noopener" class="project-link">GitHub →</a>
+        </div>
 
-        .order-md-last {
-          visibility: hidden;
-        }
+        <div class="project">
+          <div class="project-num mono">02</div>
+          <div class="project-body">
+            <h3>Secure Messaging Application</h3>
+            <p>A messaging application in Python with AES-256 encryption end to end, including custom key management, built to understand how secure communication systems actually implement cryptography rather than just call a library.</p>
+            <div class="project-stack">
+              <span>Python</span><span>AES-256</span><span>Cryptography</span><span>Key management</span>
+            </div>
+          </div>
+          <a href="https://github.com/iamkrish001" target="_blank" rel="noopener" class="project-link">GitHub →</a>
+        </div>
 
-        .about-img img {
-          content: url("https://www.krishbhurtel.com.np/images/myimg.jpg");
-        }
-      }
-    </style>
+        <div class="project">
+          <div class="project-num mono">03</div>
+          <div class="project-body">
+            <h3>Instagram Data Collection Tool</h3>
+            <p>A Python automation tool that extracts structured data from public Instagram profiles, with robust exception handling for the messiness of real-world scraping and clean, organized dataset exports.</p>
+            <div class="project-stack">
+              <span>Python</span><span>Web scraping</span><span>Exception handling</span><span>Data export</span>
+            </div>
+          </div>
+          <a href="https://github.com/iamkrish001/Instagram_Data-Scraper" target="_blank" rel="noopener" class="project-link">GitHub →</a>
+        </div>
 
-  </head>
+        <div class="project">
+          <div class="project-num mono">04</div>
+          <div class="project-body">
+            <h3>Django Web Application</h3>
+            <p>A backend web application built with Django to practice full-stack fundamentals — routing, server-side logic, and structuring a Python project the way it's done in production rather than in a single script.</p>
+            <div class="project-stack">
+              <span>Python</span><span>Django</span><span>Backend</span>
+            </div>
+          </div>
+          <a href="https://github.com/iamkrish001/Djangoproject" target="_blank" rel="noopener" class="project-link">GitHub →</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="section-tag mono">experience</div>
+          <h2>Where I've worked</h2>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="timeline-item">
+          <div class="timeline-date mono">2024</div>
+          <div class="timeline-body">
+            <h3>Software Support Intern</h3>
+            <div class="org">Heartsun Technology Pvt. Ltd.</div>
+            <ul>
+              <li>Supported a Python-based healthcare ERP system and resolved technical issues.</li>
+              <li>Developed Python automation scripts for repetitive business processes.</li>
+              <li>Performed software testing before production deployment.</li>
+              <li>Documented defects and collaborated directly with developers.</li>
+              <li>Worked with structured datasets, APIs, and backend workflows.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light site-navbar-target" id="ftco-navbar">
-      <div class="container">
-        <a class="navbar-brand" href="index.html">Krish Bhurtel</a>
-        <button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="oi oi-menu"></span>
-          Menu
-        </button>
-
-        <div class="collapse navbar-collapse" id="ftco-nav">
-          <ul class="navbar-nav nav ml-auto">
-            <li class="nav-item">
-              <a href="#home-section" class="nav-link">
-                <span>Home</span></a>
-            </li>
-            <li class="nav-item">
-              <a href="#about-section" class="nav-link">
-                <span>About</span></a>
-            </li>
-            <li class="nav-item">
-              <a href="#resume-section" class="nav-link">
-                <span>Resume</span></a>
-            </li>
-            <li class="nav-item">
-              <a href="#contact-section" class="nav-link">
-                <span>Contact</span></a>
-            </li>
-            <li class="nav-item">
-              <a href="#send-message" class="nav-link">
-                <span>Message me</span></a>
-            </li>
+  <!-- EDUCATION + CERTS -->
+  <section id="education">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="section-tag mono">education</div>
+          <h2>Education &amp; certifications</h2>
+        </div>
+      </div>
+      <div class="split-two reveal">
+        <div>
+          <div class="mini-title mono">Degree</div>
+          <div class="timeline-item" style="border-top:none;padding-top:0;">
+            <div class="timeline-date mono">2024 — present</div>
+            <div class="timeline-body">
+              <h3>B.Sc. Information Engineering</h3>
+              <div class="org">Hamburg University of Applied Sciences</div>
+              <ul>
+                <li>Programming, Software Engineering, Data Structures</li>
+                <li>Signals &amp; Systems, Embedded Systems, Digital Electronics</li>
+                <li>Computer Networks, Engineering Mathematics</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="mini-title mono">Certifications</div>
+          <ul class="cert-list">
+            <li>SAP Learning — Introducing the Banking Industry</li>
+            <li>Meta — Introduction to Front-End Development</li>
+            <li>Python Bootcamp — TechTrix 2023</li>
           </ul>
         </div>
       </div>
-    </nav>
-    <section id="home-section" class="hero">
-      <div class="home-slider  owl-carousel">
-        <div class="slider-item ">
-          <div class="overlay"></div>
-          <div class="container">
-            <div class="row d-md-flex no-gutters slider-text align-items-end justify-content-end" data-scrollax-parent="true">
-              <div class="one-third js-fullheight order-md-last img">
-                <div class="overlay"></div>
-              </div>
-              <div class="one-forth d-flex  align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-                <div class="text">
-                  <span class="subheading">Hello!</span>
-                  <h1 class="mb-4 mt-3">I'm
-                    <span>Krish Bhurtel</span></h1>
+    </div>
+  </section>
 
-                  <!-- Element to contain animated typing -->
-                  <span id="typing-animation"></span>
-
-                  <script>
-                    // Initialize the typing animation
-                    const typingAnimationElement = document.getElementById('typing-animation');
-
-                    // Create an array of typing text
-                    const typingTexts = ['Front-End Developer     ', ' Automation     ', ' Artificial Intelligence  '];
-
-                    // Create a function to display the typing animation for a given text
-                    function playTypingAnimation(text) {
-                      // Loop through each character and add it to the element
-                      for (let i = 0; i < text.length; i++) {
-                        setTimeout(() => {
-                          typingAnimationElement.textContent += text[i];
-                        }, i * 100); // Decreased delay to speed up the typing animation
-                      }
-
-                      // Once the animation is complete, reset the text and start over
-                      setTimeout(() => {
-                        typingAnimationElement.textContent = '';
-                        playTypingAnimation(typingTexts[(typingTexts.indexOf(text) + 1) % typingTexts.length]);
-                      }, text.length * 100); // Adjusted delay accordingly
-                    }
-
-                    // Start the typing animation loop
-                    playTypingAnimation(typingTexts[0]);
-                  </script><br><br>
-                  <!-- <h2 class="d-flex" style="margin-bottom: 0">With over 5 years of experience</h2> -->
-                  <!-- <br> -->
-                  <p>
-                    <a href="https://www.instagram.com/bhurtel.krish" target="_blank"  class="btn btn-primary py-3 px-4">My Instagram</a>
-                    <a href="https://www.linkedin.com/in/krish-bhurtel-894946233//" target="_blank" class="btn btn-white btn-outline-white py-3 px-4">My Linkedin</a>
-                    <a href="https://www.github.com/iamkrish001" target="_blank" class="btn btn-primary py-3 px-4">My Github</a>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap contact-inner reveal">
+      <div class="section-tag mono" style="margin-bottom:20px;">contact</div>
+      <h2>Let's talk about a role.</h2>
+      <p>I'm actively looking for a student assistant or working-student position in Hamburg or remote. If something on your team touches Python, embedded systems, or software engineering, I'd like to hear about it.</p>
+      <div class="contact-links">
+        <a href="mailto:bhurtelkrish123@gmail.com" class="btn btn-primary">bhurtelkrish123@gmail.com</a>
+        <a href="https://www.linkedin.com/in/krish-bhurtel-894946233/" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn →</a>
+        <a href="https://github.com/iamkrish001" target="_blank" rel="noopener" class="btn btn-ghost">GitHub →</a>
+        <a href="Krish_Bhurtel_CV.pdf" target="_blank" rel="noopener" class="btn btn-ghost">Download CV →</a>
       </div>
-    </section>
-
-    <section class="ftco-about img ftco-section ftco-no-pb" id="about-section">
-      <div class="container">
-        <div class="row">
-          <div class="row d-flex align-items-stretch">
-            <!-- <div class="row d-flex"> -->
-            <div class="col-md-6 col-lg-5 d-flex">
-              <div class="img-about img d-flex align-items-stretch">
-                <div class="overlay">
-                  <div class="row">
-                    <div class="col-sm-6 col-md-5">
-                      <div class="about-img">
-                        <img src="https://media.licdn.com/dms/image/D4D03AQHmxCXR-F54bQ/profile-displayphoto-shrink_800_800/0/1678599659371?e=1720656000&v=beta&t=ytk0HzDvXUQ37AeIrzo6bU9q4bBhUXFkLGqGaxJy7PU" class="img-fluid rounded b-shadow-a" alt="">
-                      </div>
-                    </div>
-                    <!-- Details next to profile image -->
-                    <div class="col-sm-6 col-md-7">
-                     
-                    </div>
-                  </div>
-
-                  <div class="skill-mf">
-                    <p class="title-s">Skills</p>
-
-                    <span>HTML</span>
-                    <!-- <span class="pull-right">95%</span> -->
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" style="width: 99%;" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-
-                    <span>PYTHON</span>
-                    <!-- <span class="pull-right">85%</span> -->
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" style="width: 99%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-
-                    <span>Flutter</span>
-                    <!-- <span class="pull-right">99%</span> -->
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" style="width: 99%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-
-                    <span>CSS</span>
-                    <!-- <span class="pull-right">99%</span> -->
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" style="width: 99%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <span>C</span>
-                    <!-- <span class="pull-right">99%</span> -->
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" style="width: 99%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <span>C++</span>
-                    <!-- <span class="pull-right">99%</span> -->
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" style="width: 99%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-6 col-lg-7 pl-lg-5 pb-5">
-              <div class="row justify-content-start pb-3">
-                <div class="col-md-12 heading-section ftco-animate">
-
-                  <h1 class="big">About</h1>
-                  <h2 class="mb-4">About Me</h2>
-
-                  <p>
-                    Embarking on the exhilarating journey of becoming a front-end developer, I am deeply passionate about technology and computers. With each line of code I write, I strive not only to excel in my craft but also to perceive the world through my unique perspective. Beyond the screen, I find solace in exploring the vast realm of human diversity, savoring the richness of different cultures as I traverse the globe. My fascination with travel and cultural immersion is not merely a pastime but an integral part of my personal and professional growth, offering invaluable insights that shape my approach to front-end development. As I navigate the intersections of technology and human experience, I am driven by an insatiable curiosity to unravel new possibilities and create meaningful connections in the digital landscape.
-                  </p>
-                  <ul class="about-info mt-4 px-md-0 px-2">
-                    <li class="d-flex">
-                      <span>Profile:</span>
-                      <span>Front-End Developer  </span></li>
-                    <li class="d-flex">
-                      <span>Domain:</span>
-                      <span>Front-End Developement</span></li>
-                    <li class="d-flex">
-                      <span>Education:</span>
-                      <span>Bachelor of Computer Science and Information Technology</span></li>
-                    <li class="d-flex">
-                      <span>Language:</span>
-                      <span>Nepali, English, Hindi, German</span></li>
-                    <li class="d-flex">
-                      <span>Other Skills:</span>
-                      <span>
-                        Drawing proficiency, Observational skills, Creativity, Knowledge of art fundamentals, Technical proficiency, Communication skills, Time management, Adaptability &amp; Attention to detail</span></li>
-                    <li class="d-flex">
-                      <span>Interest:</span>
-                      <span>Traveling, Travel Photography, Teaching, PhyiscalFitness</span></li>
-
-                  </ul>
-                </div>
-              </div>
-
-              <div class="counter-wrap ftco-animate d-flex mt-md-3">
-                <div class="text">
-                  <p>
-                    <a href="https://www.linkedin.com/in/krish-bhurtel-894946233/" class="btn btn-primary py-3 px-3">LinkedIn</a>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="ftco-section ftco-no-pb" id="resume-section">
-      <div class="container">
-     
-
-      
-        <br>
-
-       
-
-        <br>
-        <br>
-
-        <div class="row">
-          <h1 class="big-4">Education</h1>
-          <div class="underline"></div>
-        </div>
-        <br>
-        
- <div class="row">
-          <div class="col-md-6">
-            <div class="resume-wrap ftco-animate">
-              <span class="date">2024-present</span>
-              <h2>Information Engineering</h2>
-              <span class="position">Hochschule für Angewandte Wissenschaften Hamburg </span>
-            </div>
-          </div>
-   
-        <div class="row">
-          <div class="col-md-6">
-            <div class="resume-wrap ftco-animate">
-              <span class="date">2022-2023</span>
-              <h2>Bachelor of Computer Science and Information Technology</h2>
-              <span class="position">Tribhuvan University</span>
-            </div>
-          </div>
-
-          
-          <div class="col-md-6">
-            <div class="resume-wrap ftco-animate">
-              <span class="date">2020-2022</span>
-              <h2>Higher Secondary School</h2>
-              <span class="position">NEB (ESS)</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="row justify-content-center mt-5">
-          <div class="col-md-6 text-center ftco-animate">
-            <p>
-              <a href="#" class="btn btn-primary py-4 px-5">Download CV</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <section class="ftco-section ftco-no-pt ftco-no-pb ftco-counter img" id="section-counter">
-      <div class="hid" style="visibility:hidden">
-        <div class="container">
-          <div class="row d-md-flex align-items-center">
-            <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-              <div class="block-18">
-                <div class="text">
-                  <strong class="number" data-number="20">0</strong>
-                  <span>Achievements</span>
-                </div>
-              </div>
-            </div>
-           
-          </div>
-        </div>
-      </div>
-
-      <div class="ftco-section ftco-hireme img margin-top" style="background-image: url(images/image.jpg)">
-  
-      </div>
-    </section>
-
-    <section class="ftco-section contact-section ftco-no-pb" id="contact-section">
-      <div class="container">
-        <div class="row justify-content-center mb-5 pb-5">
-          <div class="col-md-7 heading-section text-center ftco-animate">
-            <h1 class="big big-2">Contact</h1>
-            <h2 class="mb-4">Contact Me</h2>
-            <p>Below are the details to reach out to me!</p>
-          </div>
-        </div>
-
-        <div class="row d-flex contact-info mb-5">
-          <div class="col-md-6 col-lg-3 d-flex ftco-animate">
-            <div class="align-self-stretch box p-4 text-center">
-              <div class="icon d-flex align-items-center justify-content-center">
-                <span class="icon-map-signs"></span>
-              </div>
-              <h3 class="mb-4">Address</h3>
-              <p>Hamburg, Germany</p>
-            </div>
-          </div>
-      
-          <div class="col-md-6 col-lg-3 d-flex ftco-animate">
-            <div class="align-self-stretch box p-4 text-center">
-              <div class="icon d-flex align-items-center justify-content-center">
-                <span class="icon-paper-plane"></span>
-              </div>
-              <h3 class="mb-4">Email Address</h3>
-              <p>
-                bhurtelkrish123@gmail.com
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 d-flex ftco-animate">
-            <div class="align-self-stretch box p-4 text-center">
-              <div class="icon d-flex align-items-center justify-content-center">
-                <span class="icon-globe"></span>
-              </div>
-              <h3 class="mb-4">Download Resume</h3>
-              <p>
-                <a href="https://github.com/iamkrish001/KrishBhurtelPortfolio/blob/main/Krish_Bhurtel_Lebenslauf.pdf">CV</a>
-              </p>
-            </div>
-          </div>
-
-          <div class="container">
-            <br>
-            <br>
-            <div class="row justify-content-center">
-              <div class="col-md-7 ftco-animate text-center">
-                <h2>Have a<span>
-                    Question?
-                  </span>
-                </h2>
-                <div class="que" id="send-message">
-                  <form action="https://api.web3forms.com/submit" method="POST">
-                    <input type="hidden" name="access_key" value="849c5a9b-0f01-44ef-9cf9-5bf914adb66f">
-                    <div class="row gy-4 gy-xl-5 p-4 p-xl-5">
-                      <div class="col-12">
-                        <label for="fullname" class="form-label">Full Name
-                          <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="fullname" name="fullname" value="" required="required">
-                      </div>
-                      <div class="col-12 col-md-6">
-                        <label for="email" class="form-label">Email
-                          <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                          <span class="input-group-text">
-                            
-                          </span>
-                          <input type="email" class="form-control" id="email" name="email" value="" required="required">
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-6">
-                        <label for="phone" class="form-label">Phone Number</label>
-                        <div class="input-group">
-                          <span class="input-group-text">
-                           
-                          </span>
-                          <input type="tel" class="form-control" id="phone" name="phone" value="">
-                        </div>
-                      </div><br>
-                      <div class="col-12">
-                        <label for="subject" class="form-label">Subject
-                          <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="subject" name="subject" value="" required="required">
-                      </div>
-                      <div class="col-12">
-                        <label for="message" class="form-label">Message
-                          <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="message" name="message" rows="3" required="required"></textarea>
-                      </div>
-                      <div class="col-12">
-                        <div class="d-grid"><br>
-                          <button class="btn btn-primary btn-lg" type="submit">Send Message</button>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <br>
-            <ul class="ftco-footer-social list-unstyled d-flex justify-content-center align-items-center mb-0">
-              <li class="ftco-animate normal-txt">Find me on
-              </li>
-              <li class="ftco-animate">
-                <a href="https://www.linkedin.com/in/krish-bhurtel-894946233/">
-                  <span class="icon-linkedin"></span></a>
-              </li>
-             
-      <li class="ftco-animate">
-                <a href="https://www.github.com/iamkrish001/">
-                  <span class="icon-github"></span></a>
-              </li>
-            </ul>
-            <br>
-          </div>
-        </div>
-      </section>
-
-      <footer class="ftco-footer ftco-section">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12 text-center">
-
-              <p >
-                Copyright &copy;<script>
-                  document.write(new Date().getFullYear());
-                </script>
-                All rights reserved | 
-                by
-                <a href="https://www.krishbhurtel.com.np" target="_blank">Krish Bhurtel</a>
-              </p>
-            </div>
-          </div>
-        </div>
+    </div>
+    <div class="wrap">
+      <footer>
+        <span>© 2026 Krish Bhurtel</span>
+        <span>Hamburg, Germany</span>
       </footer>
+    </div>
+  </section>
 
-      <!-- loader -->
-      <div id="ftco-loader" class="show fullscreen">
-        <svg class="circular" width="48px" height="48px">
-          <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
-          <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg>
-      </div>
+</main>
 
-      <script src="js/jquery.min.js"></script>
-      <script src="js/jquery-migrate-3.0.1.min.js"></script>
-      <script src="js/popper.min.js"></script>
-      <script src="js/bootstrap.min.js"></script>
-      <script src="js/jquery.easing.1.3.js"></script>
-      <script src="js/jquery.waypoints.min.js"></script>
-      <script src="js/jquery.stellar.min.js"></script>
-      <script src="js/owl.carousel.min.js"></script>
-      <script src="js/jquery.magnific-popup.min.js"></script>
-      <script src="js/aos.js"></script>
-      <script src="js/jquery.animateNumber.min.js"></script>
-      <script src="js/scrollax.min.js"></script>
+<script>
+  // Reveal on scroll
+  const items = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:0.12});
+  items.forEach(i=>io.observe(i));
 
-      <script src="js/main.js"></script>
-      <script>
-        function gitClick() {
-          window.location.href = 'https://github.com/iamkrish001';
-        }
-      </script>
+  // Signal waveform canvas in hero
+  const canvas = document.getElementById('waveform');
+  const ctx = canvas.getContext('2d');
+  let w, h, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    </body>
+  function resize(){
+    w = canvas.parentElement.offsetWidth;
+    h = canvas.parentElement.offsetHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
 
-  </html>
+  const lines = [
+    { amp: 26, freq: 0.010, speed: 0.010, phase: 0,   y: 0.30, color: 'rgba(232,163,61,0.55)', width: 1.4 },
+    { amp: 14, freq: 0.022, speed: 0.016, phase: 2,   y: 0.55, color: 'rgba(139,143,151,0.28)', width: 1 },
+    { amp: 34, freq: 0.006, speed: 0.006, phase: 4,   y: 0.78, color: 'rgba(139,143,151,0.18)', width: 1 },
+  ];
+
+  let t = 0;
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    lines.forEach(line=>{
+      ctx.beginPath();
+      ctx.strokeStyle = line.color;
+      ctx.lineWidth = line.width;
+      const baseY = h * line.y;
+      for(let x=0; x<=w; x+=4){
+        const y = baseY + Math.sin(x*line.freq + t*line.speed + line.phase) * line.amp
+                 + Math.sin(x*line.freq*2.3 + t*line.speed*1.7) * (line.amp*0.25);
+        if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+    });
+    t += 1;
+    if(!reduceMotion) requestAnimationFrame(draw);
+  }
+  draw();
+</script>
+
+</body>
+</html>
