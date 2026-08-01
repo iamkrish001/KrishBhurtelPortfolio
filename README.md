@@ -2,7 +2,7 @@
 
 My personal portfolio site — built to showcase what I'm studying, the projects I've built, and how to get in touch.
 
-**Live site:** [iamkrish001.github.io/KrishBhurtelPortfolio](https://iamkrish001.github.io/KrishBhurtelPortfolio/)
+**Live site:** [iamkrish001.github.io/KrishBhurtelPortfolio](https://iamkrish001.github.io/KrishBhurtelPortfolio/](https://www.krishbhurtel.com.np))
 
 ## About
 
